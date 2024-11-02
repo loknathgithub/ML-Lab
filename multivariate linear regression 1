@@ -1,0 +1,63 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
+from sklearn import metrics
+df=pd.read_csv('C:/Users/Deep/Desktop/car-dataset.csv')
+df.head()
+
+
+
+
+plt.scatter(df['Mileage'],df['Sell-price'])
+
+
+
+plt.scatter(df['Age'],df['Sell-price'])
+
+
+
+x=df[['Mileage','Age']]
+y=df['Sell-price']
+x
+
+
+
+y
+
+
+
+
+from sklearn.model_selection import train_test_split
+x_train,x_test,y_train,y_test=train_test_split(x,y,test_size=0.2)
+len(x_train)
+
+
+x_train
+
+
+
+
+from sklearn.linear_model import LinearRegression
+#from sklearn.metrics import score
+clf=LinearRegression()
+clf.fit(x_train,y_train)
+LinearRegression(copy_X=True, fit_intercept=True, n_jobs=None, normalize=False)
+y_pred=clf.predict(x_test)
+y_pred
+
+
+
+
+y_test
+
+
+
+
+print(x_test)
+len(x_test)
+
+
+
+
+r_sq=clf.score(x,y)
+print(r_sq)
