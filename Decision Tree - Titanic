@@ -1,0 +1,87 @@
+import pandas as pd
+from sklearn.preprocessing import LabelEncoder
+from sklearn.model_selection import train_test_split
+from sklearn.tree import DecisionTreeClassifier
+data = pd.read_csv('C:/Users/Deep/Desktop/titanic.csv')
+data.head()
+
+
+
+data.shape
+
+
+
+input = data[['Age','Pclass','Sex','Fare','Survived']]
+input.head()
+
+
+
+#label encoding the sex into numbers
+LE = LabelEncoder()
+input['Sex_n'] = LE.fit_transform(input['Sex'])
+input
+
+
+
+input.drop(axis=1,columns='Sex',inplace=True)
+
+
+
+input.describe()
+
+
+
+input.shape
+
+input = input.fillna(input.mean())
+
+
+
+features = input[['Age','Pclass','Sex_n','Fare']]
+features.shape
+
+
+
+target = input[['Survived']]
+target.shape
+
+
+
+
+#Splittng the data into train and test
+X_train, X_test, y_train, y_test = train_test_split(features, target, test_size= 0.30, random_state= 12)
+X_test.shape
+
+
+
+model = DecisionTreeClassifier(criterion='gini', max_depth=7)
+model.fit(X_train, y_train)
+
+
+
+
+#Checking the Accuracy
+model.score(X_train, y_train)
+
+
+model.score(X_test, y_test)
+
+
+
+model.feature_importances_
+
+
+
+model.predict([[65,1,1,26]])
+
+
+
+model.predict([[30,1,0,52]])
+
+
+
+X_test
+
+
+
+y_test
