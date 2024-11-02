@@ -1,0 +1,74 @@
+import pandas as pd
+import seaborn as sns
+import numpy as np
+from sklearn import preprocessing, svm
+import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+df = pd.read_csv('C:/Users/Deep/Desktop/Regression/USA_Housing.csv')
+#Make a new Dataset considering only ‘Avg. Area House Age’ and ‘Price’ attributes
+
+df_binary = df[['Avg. Area House Age', 'Price']].copy()
+df_binary_columns = ['Avg. Area House Age', 'Price']
+df_binary.head()
+
+
+
+
+#Set a variable ‘x’ equal to the ‘Avg. Area House Age’ feature of the given dataset and a variable ‘y’ equal to the ‘Price’ column
+
+x = df['Avg. Area House Age']
+y = df['Price']
+x
+
+
+
+y
+
+
+
+
+#Split the new dataset into the Training set and Test set such that Test set contains 1/3 of total records using model_selection.train_test_split from sklearn.
+
+X = np.array(df_binary['Avg. Area House Age']).reshape(-1,1)
+Y = np.array(df_binary['Price']).reshape(-1,1)
+#df_binary.dropna(inplace=True)
+x_train,x_test,y_train,y_test=train_test_split(X,Y,test_size=0.33)
+#Train the Simple Linear Regression model based on the Training set after importing LinearRegression from sklearn.linear_model.
+
+lr=LinearRegression()
+lr.fit(x_train,y_train)
+
+
+
+#Display the model’s coefficients after train the model and hence write the final regression model.
+
+print(lr.score(x_test,y_test))
+lr.coef_
+lr.intercept_
+
+m=lr.intercept_
+b=lr.coef_
+print('y=',m,'*X+',b)
+
+
+
+#Predict the house price of the Test set data and display them
+
+pred = lr.predict(x_test)
+print(pred)
+
+
+
+#Visualize the Training set results using scatter plot along with regression line.
+
+plt.scatter(x_train,y_train)
+plt.plot(x_test,pred,color='red')
+
+
+
+
+#Visualize the Test set results using scatter plot along with regression line
+
+plt.scatter(x_test,y_test)
+plt.plot(x_test,pred,color='red')
