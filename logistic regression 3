@@ -1,0 +1,108 @@
+#LOGISTIC REGRESSION
+#Import the usual libraries for pandas and plotting
+
+import pandas as pd
+import seaborn as sb
+import numpy as np
+import sklearn
+from matplotlib import pyplot as plt
+#Read “advertising.csv” file and set it to a data frame called ad_data
+
+ad_data = pd.read_csv('C:/Users/Deep/Desktop/advertising.csv')
+#Check the Head of ad_data
+
+ad_data.head()
+
+
+
+
+#Check whether any missing data are there or not
+
+ad_data.isnull().sum()
+
+
+
+
+#Calculate several statistical measures on numerical attributes
+
+ad_data.describe()
+
+
+
+
+#Create a Histogram of the ‘Age’ using Seaborn package
+
+plt.hist(ad_data['Age'])
+
+
+
+
+#Create a Jointplot showing ‘Area Income’ versus ‘Age’.
+
+sb.jointplot(ad_data['Area Income'], ad_data['Age'])
+
+
+
+
+# Create a Jointplot showing the ‘kde’ distributions of ‘Daily Time Spent on site’ versus ‘Age’
+
+sb.jointplot(ad_data['Daily Time Spent on Site'], ad_data['Age'])
+
+
+
+
+#Create a Jointplot of ‘Daily Time Spent on Site’ versus ‘Daily Internet Usage’
+
+sb.jointplot(ad_data['Daily Time Spent on Site'], ad_data['Daily Internet Usage'])
+
+
+
+
+#Crate a pairplot with the hue defined by the ‘Clicked on Ad’ column feature
+
+sb.pairplot(ad_data,hue='Clicked on Ad')
+
+
+
+
+
+#Choose columns that you want to use for Logistic Regression
+
+x = ad_data[['Daily Time Spent on Site', 'Area Income', 'Daily Internet Usage']]
+y = ad_data[['Clicked on Ad']]
+#Split the data into training set and testing set so that your testing set consists 25% of total data
+
+from sklearn.model_selection import train_test_split
+x_train, x_test, y_train, y_test = train_test_split(x,y,test_size=0.25, random_state=42)
+#Train and fit a Logistic Regression model on the training set
+
+from sklearn.linear_model import LogisticRegression
+logic = LogisticRegression()
+logic.fit(x_train,y_train) 
+
+
+
+
+#Display all the coefficients values of the fitted Logistic Regression Model
+
+logic.coef_
+array([[-1.57040367e-01, -1.05229723e-04, -6.98627182e-02]])
+#Predict class label for the testing dataset
+
+predict = logic.predict(x_test)
+predict
+
+
+
+
+#Create a classification report for the model
+
+from sklearn.metrics import classification_report,confusion_matrix
+print(classification_report(y_test,predict))
+
+
+
+
+#Create the confusion matrix for your fitted model and calculate the model accuracy
+
+print(confusion_matrix(y_test,predict))
