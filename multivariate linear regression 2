@@ -1,0 +1,82 @@
+#Import the usual libraries for pandas and plotting and DATASET 
+
+import pandas as pd
+import seaborn as sns
+import numpy as np
+#import sklearn import preprocessing
+import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+df1 = pd.read_csv('C:/Users/Deep/Desktop/USA_Housing.csv')
+#Check the head of your Dataset and also check out its info(), describe() methods over the dataset.
+
+df1.head()
+df1.info()
+df1.describe()
+
+
+
+#Explore the types of relationships across the entire dataset using ‘pairplot’ method of seaborn and comment on that.
+
+sns.pairplot(df1)
+
+
+
+
+#Set a variable X equal to the numerical features of the given dataset and a variable Y equal to the “Price” column
+
+X = df1[['Avg. Area Income', 'Avg. Area House Age', 'Avg. Area Number of Rooms', 'Avg. Area Number of Bedrooms', 'Area Population']]
+Y = df1['Price']
+#Split the data into training and testing sets using model_selection.train_test_split from sklearn such that Test set consists 30% of total data.
+
+x_train,x_test,y_train,y_test = train_test_split(X,Y,test_size=0.30)
+#Train the Linear Regression model based on the Training data after importing LinearRegression from sklearn.linear_model
+
+lm1 = LinearRegression()
+lm1.fit(x_train,y_train)
+
+
+
+
+#Print the coefficients of the trained model. How can you interpret these coefficients?
+
+print(lm1.score(x_test,y_test))
+print(lm1.intercept_)
+coeff_df = pd.DataFrame(lm1.coef_,X.columns,columns=['Coefficient'])
+coeff_df
+
+
+
+
+#Interpretation of the Coefficients:
+#Let Avg. Area Income’s Coefficient value is 21.709074
+#Then it means ----- Holding all other features fixed, a 1 unit increase in Avg. Are Income is associated with an increase of $21.709074
+#Same explanation for all other features.
+#Predict the house price of the Test Set data and display them
+
+prediction = lm1.predict(x_test)
+print(prediction)
+
+
+
+
+#Create a scatterplot of the real test values versus the predicted values
+
+plt.scatter(y_test,prediction,edgecolor='black')
+
+
+
+
+#Calculate the Mean Absolute Error, Mean Squared Error, Root Mean Squared Error to evaluate our model performance after importing metrics from sklearn.
+
+from sklearn import metrics
+print('MAE:', metrics.mean_absolute_error(y_test, prediction))
+print('MSE:', metrics.mean_squared_error(y_test, prediction))
+
+
+
+
+#Plot a Histogram of the residuals. [Use either seaborn distplot, or just plt.hist()]
+
+sns.distplot((y_test-prediction),bins=50,hist_kws=dict(edgecolor='black', linewidth=1))
+print('RMSE:', np.sqrt(metrics.mean_squared_error(y_test, prediction)))
