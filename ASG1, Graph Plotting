@@ -1,0 +1,49 @@
+#Example 1:
+#Create an array ‘x’ with 100 elements which consists of integers using ‘arange’ function of ‘numpy’. 
+#Create 2 more arrays ‘y’ and ‘z’ which contains ‘x*2’ and ‘x**2’ values respectively.
+
+import numpy as np
+x = np.arange(0,100,1)
+x
+y = 2*x
+y
+z = x**2
+z
+
+
+
+#Import matplotlib.pyplot as plt and set %matplotlib inline when you are using Jupyter notebook.
+
+import matplotlib.pyplot as plt
+%matplotlib inline
+
+#Create a figure object called ‘fig’ using plt.figure(). 
+#Use add_axes to an axis to the figure canvas at [0,0,1,1].
+#Call this new axis as ‘ax’.
+#Plot (x,y) on that axis and set the labels and titles to match the plot.
+
+
+fig = plt.figure()
+axes = fig.add_axes([0,0,1,1])
+axes.plot(x,y,'r--')
+axes.set_xlabel('x axis')
+axes.set_ylabel('y axis')
+axes.set_title('x,y graph')
+
+
+
+
+#Create a figure object and put two axes on it, ax1 and ax2 located at [0,0,1,1] and [0.2,0.5,0.4,0.4] respectively.
+#Now plot (x,y) on both axes and call your figure object to show it.
+
+fig = plt.figure()
+ax1 = fig.add_axes([0,0,1,1])
+ax2 = fig.add_axes([0.2,0.5,0.4,0.4])
+ax1.plot(x,y,'r-')
+ax1.set_xlabel('x axis')
+ax1.set_ylabel('y axis')
+ax1.set_title('ax1')
+ax2.plot(x,y,'b--')
+ax2.set_xlabel('x axis')
+ax2.set_ylabel('y axis')
+ax2.set_title('ax2')
