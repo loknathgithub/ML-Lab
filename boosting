@@ -1,0 +1,48 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn import model_selection
+from sklearn.ensemble import AdaBoostClassifier
+from sklearn.model_selection import train_test_split
+
+bankdata = pd.read_csv("C:/Users/DEEP SUMAN/Desktop/Lab Prg Ready/bill_authentication.csv")
+
+bankdata.shape
+
+
+
+bankdata.head(10)
+
+
+
+
+X = bankdata.drop('Class', axis=1)
+y = bankdata['Class']
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.20)
+
+# PROCESS 1
+#seed=7
+num_trees=10
+model = AdaBoostClassifier(n_estimators=num_trees)
+kfold=model_selection.KFold(n_splits=5)
+
+results = model_selection.cross_val_score(model,X_train, y_train, cv=kfold)
+print("Results:", results)
+print("Mean Results:", results.mean())
+
+
+
+#PROCESS 2
+model = AdaBoostClassifier(n_estimators=num_trees)
+model.fit(X_train, y_train)
+
+
+
+y_pred = model.predict(X_test)
+model.score(X_test, y_test)
+
+
+
+from sklearn.metrics import classification_report, confusion_matrix
+print(confusion_matrix(y_test,y_pred))
+print(classification_report(y_test,y_pred))
